@@ -148,6 +148,10 @@ def up_vote(p_user,p_name):
 		cur.execute(sql)
 
 		conn.commit()
+		cur.close()
+		conn.close()
+
+		cur = conn.cursor()
 
 		sql = "SELECT p_up_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"'"
 
