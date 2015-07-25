@@ -136,10 +136,14 @@ def up_vote(p_user,p_name):
 	res = cur.fetchone()
 
 	if(res == "false"):
-		sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',0,0,'"+v_date+"','"+v_time+"')"
-	
-	else:
+		sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',1,0,'"+v_date+"','"+v_time+"')"
+		
+		cur.execute(sql)
 
+		conn.commit()
+
+	else:
+		
 		sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'AND p_name='"+str(var2)+"'"
 
 		cur.execute(sql)
