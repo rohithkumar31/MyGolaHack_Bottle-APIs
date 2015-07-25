@@ -141,7 +141,7 @@ def up_vote(p_user,p_name):
 
 	print str(res)
 
-	if (str(res) == "None")|(str(res[0]) == "0") :
+	if (str(res) == "None")|(str(res) == "0") :
 
 		os.environ['TZ'] = 'Asia/Calcutta'
 		time.tzset()
