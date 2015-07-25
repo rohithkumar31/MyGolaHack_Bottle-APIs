@@ -191,7 +191,7 @@ def down_vote(p_user,p_name):
 
 	res = cur.fetchone()
 
-	if (str(res) == "None")||(str(res[0]) == "0")  :
+	if (str(res) == "None")|(str(res[0]) == "0")  :
 
 		os.environ['TZ'] = 'Asia/Calcutta'
 		time.tzset()
