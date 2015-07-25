@@ -228,3 +228,23 @@ def down_vote(p_user,p_name):
 	else :
 		return "0"
 
+@app.route('/test')
+def test():
+	conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+	)
+
+	cur = conn.cursor()
+
+	sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='abc'AND p_name='Test Poll'"
+
+	cur.execute(sql)
+
+	res = cur.fetchall()
+
+	return str(res)
+
