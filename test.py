@@ -366,7 +366,7 @@ def all_polls():
 	
 	print rows
 
-    print "DB data as a single JSON string:"
+    
     rows_json = json.dumps(rows)
     print rows_json
 
