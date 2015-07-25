@@ -258,5 +258,5 @@ def test():
 
 	length = len(res)
 
-	return str(res)
+	return str(res[0])
 
