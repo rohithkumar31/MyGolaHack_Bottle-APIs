@@ -112,7 +112,27 @@ def new_poll(p_user,p_name,p_location):
 	cur.close()
 	conn.close()
 
-	return "Poll Inserted!! :-D"
+	return "1"
 
+@app.route('/up_vote/<p_user>/<p_name>')
+def up_vote(p_user,p_name):
+	conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+	)
 
-	
+	cur = conn.cursor()
+
+	var1 = p_user
+	var2 = p_name
+
+	sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'&p_name='"+str(var2)+"'"
+
+	cur.execute(sql)
+
+	res = cur.fetchone()
+
+	return str(res[0])
