@@ -137,6 +137,8 @@ def up_vote(p_user,p_name):
 
 	length = len(res)
 
+	print length
+
 	res = res[length-1][0]
 
 	print str(res)
