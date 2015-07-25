@@ -246,5 +246,5 @@ def test():
 
 	res = cur.fetchall()
 
-	return str(res)
+	return str(res[-1])
 
