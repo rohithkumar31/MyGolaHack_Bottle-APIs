@@ -169,6 +169,9 @@ def up_vote(p_user,p_name):
 		up_vote_count = res[0][0]
 		down_vote_count = res[0][1]
 
+		if down_vote_count == 0 :
+			down_vote_count = 1
+
 		sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
 
 		cur.execute(sql)
