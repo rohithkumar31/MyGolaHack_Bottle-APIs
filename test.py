@@ -70,7 +70,7 @@ def signup(username,passwd):
 		return "0"
 
 @app.route('/new_poll/<p_user>/<p_name>/<p_location>')
-def new_poll(p_user,p_name,p_location,p_image):
+def new_poll(p_user,p_name,p_location):
 	conn = psycopg2.connect(
     database=url.path[1:],
     user=url.username,
