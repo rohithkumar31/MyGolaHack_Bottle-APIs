@@ -363,4 +363,4 @@ def all_polls():
 	rows = cur.fetchall()
 
 	 
-	print json.dumps(rows, indent=2)
+	return json.dumps(rows, indent=2)
