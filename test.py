@@ -133,7 +133,13 @@ def up_vote(p_user,p_name):
 
 	cur.execute(sql)
 
-	res = cur.fetchone()
+	res = cur.fetchall()
+
+	length = len(res)
+
+	res = res[length-1][0]
+
+	print str(res)
 
 	if (str(res) == "None")|(str(res[0]) == "0") :
 
@@ -190,7 +196,11 @@ def down_vote(p_user,p_name):
 
 	cur.execute(sql)
 
-	res = cur.fetchone()
+	res = cur.fetchall()
+
+	length = len(res)
+
+	res = res[length-1][0]
 
 	if (str(res) == "None")|(str(res[0]) == "0")  :
 
