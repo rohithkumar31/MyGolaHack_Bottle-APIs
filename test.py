@@ -148,12 +148,12 @@ def up_vote(p_user,p_name):
 		cur.execute(sql)
 
 		conn.commit()
-		cur.close()
-		conn.close()
+		#cur.close()
+		#conn.close()
 
-		cur = conn.cursor()
+		#cur = conn.cursor()
 
-		sql = "SELECT p_up_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"'"
+		sql = "SELECT p_up_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
 
 		cur.execute(sql)
 
@@ -161,7 +161,7 @@ def up_vote(p_user,p_name):
 
 		vote_count = res[0]
 
-		sql = "UPDATE TABLE public.\"Polls\" SET p_up_votes="+str(vote_count+1)+"WHERE p_name='"+str(var2)+"'"
+		sql = "UPDATE TABLE public.\"Polls\" SET p_up_votes="+str(vote_count+1)+"WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
 
 		cur.execute(sql)
 
