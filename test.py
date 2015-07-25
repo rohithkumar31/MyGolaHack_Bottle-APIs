@@ -3,7 +3,6 @@ import time
 import psycopg2
 import urlparse
 import hashlib
-import collections
 import json
 from bottle import Bottle
 
@@ -365,15 +364,15 @@ def all_polls():
 	objects_list = []
 	for row in rows:
 		poll_data = {    
-     	'ID' = row.p_id
-	   	'User' = row.p_user
-    	'Name' = row.p_name
-    	'Location' = row.p_location
-    	'Image URl' = row.p_image
-    	'Up Count' = row.p_up_votes
-    	'Down Count' = row.p_down_votes
-    	'Date' = row.p_date
-    	'Time' = row.p_time}
+     	'ID':row.p_id
+	   	'User':row.p_user
+    	'Name':row.p_name
+    	'Location':row.p_location
+    	'Image URl':row.p_image
+    	'Up Count':row.p_up_votes
+    	'Down Count':row.p_down_votes
+    	'Date':row.p_date
+    	'Time':row.p_time}
     	objects_list.append(poll_data)
  
 	j = json.dumps(objects_list)
