@@ -135,4 +135,34 @@ def up_vote(p_user,p_name):
 
 	res = cur.fetchone()
 
-	return str(res)
+	if str(res) == "None" :
+
+		os.environ['TZ'] = 'Asia/Calcutta'
+		time.tzset()
+
+		v_date = str(time.strftime("%d-%m-%Y"))
+		v_time = str(time.strftime("%H:%M:%S"))
+
+		sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',1,0,'"+v_date+"','"+v_time+"')"
+
+		cur.execute(sql)
+
+		conn.commit()
+
+		sql = "SELECT p_up_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"'"
+
+		cur.execute(sql)
+
+		res = cur.fetchone()
+
+		vote_count = res[0]
+
+		sql = "UPDATE TABLE public.\"Polls\" SET p_up_votes="+(vote_count+1)+"WHERE p_name='"+str(var2)+"'"
+
+		cur.execute(sql)
+
+		conn.commit()
+		cur.close()
+		conn.close()
+
+		return "1"
