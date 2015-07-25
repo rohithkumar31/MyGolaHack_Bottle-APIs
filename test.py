@@ -250,7 +250,7 @@ def test():
 
 	cur = conn.cursor()
 
-	sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='abc'AND p_name='Test Poll'"
+	sql = "SELECT p_up_votes,p_down_votes FROM public.\"Polls\" WHERE p_name='Test Poll' AND p_user='abc'"
 
 	cur.execute(sql)
 
@@ -258,5 +258,5 @@ def test():
 
 	length = len(res)
 
-	return str(res[length-1][0])
+	return str(res)
 
