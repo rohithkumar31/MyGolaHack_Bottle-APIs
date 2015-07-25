@@ -361,7 +361,8 @@ def all_polls():
 	res = cur.fetchall()
 
 	rows = [ dict(rec) for rec in res ]
-	    print rows
+	
+	print rows
 
     print "DB data as a single JSON string:"
     rows_json = json.dumps(rows)
