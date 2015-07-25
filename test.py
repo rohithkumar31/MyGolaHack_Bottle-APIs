@@ -142,8 +142,33 @@ def up_vote(p_user,p_name):
 
 		conn.commit()
 
+		sql = "SELECT p_up_votes,p_down_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
+
+			cur.execute(sql)
+
+			res = cur.fetchall()
+
+			up_vote_count = res[0][0]
+			down_vote_count = res[0][1]
+
+			if down_vote_count == 0 :
+				down_vote_count = 1
+
+			sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
+
+			cur.execute(sql)
+
+			conn.commit()
+			cur.close()
+			conn.close()
+
+			return "1"
+
+		else :
+			return "0"
+
 	else:
-		
+
 		sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'AND p_name='"+str(var2)+"'"
 
 		cur.execute(sql)
