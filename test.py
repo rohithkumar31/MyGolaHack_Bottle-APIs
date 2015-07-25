@@ -157,7 +157,7 @@ def up_vote(p_user,p_name):
 
 		vote_count = res[0]
 
-		sql = "UPDATE TABLE public.\"Polls\" SET p_up_votes="+(vote_count+1)+"WHERE p_name='"+str(var2)+"'"
+		sql = "UPDATE TABLE public.\"Polls\" SET p_up_votes="+str(vote_count+1)+"WHERE p_name='"+str(var2)+"'"
 
 		cur.execute(sql)
 
