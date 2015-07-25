@@ -170,3 +170,6 @@ def up_vote(p_user,p_name):
 		conn.close()
 
 		return "1"
+
+	else :
+		return "0"
