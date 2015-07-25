@@ -140,61 +140,61 @@ def up_vote(p_user,p_name):
 	
 	else:
 
-	sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'AND p_name='"+str(var2)+"'"
-
-	cur.execute(sql)
-
-	res = cur.fetchall()
-
-	length = len(res)
-
-	print length
-
-	if length == 0 :
-		res = 0 
-	else :
-		res = res[length-1][0]
-
-	print str(res)
-
-	if (str(res) == "None")|(str(res) == "0") :
-
-		os.environ['TZ'] = 'Asia/Calcutta'
-		time.tzset()
-
-		v_date = str(time.strftime("%d-%m-%Y"))
-		v_time = str(time.strftime("%H:%M:%S"))
-
-		sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',1,0,'"+v_date+"','"+v_time+"')"
-
-		cur.execute(sql)
-
-		conn.commit()
-
-		sql = "SELECT p_up_votes,p_down_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
+		sql = "SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'AND p_name='"+str(var2)+"'"
 
 		cur.execute(sql)
 
 		res = cur.fetchall()
 
-		up_vote_count = res[0][0]
-		down_vote_count = res[0][1]
+		length = len(res)
 
-		if down_vote_count == 0 :
-			down_vote_count = 1
+		print length
 
-		sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
+		if length == 0 :
+			res = 0 
+		else :
+			res = res[length-1][0]
 
-		cur.execute(sql)
+		print str(res)
 
-		conn.commit()
-		cur.close()
-		conn.close()
+		if (str(res) == "None")|(str(res) == "0") :
 
-		return "1"
+			os.environ['TZ'] = 'Asia/Calcutta'
+			time.tzset()
 
-	else :
-		return "0"
+			v_date = str(time.strftime("%d-%m-%Y"))
+			v_time = str(time.strftime("%H:%M:%S"))
+
+			sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',1,0,'"+v_date+"','"+v_time+"')"
+
+			cur.execute(sql)
+
+			conn.commit()
+
+			sql = "SELECT p_up_votes,p_down_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
+
+			cur.execute(sql)
+
+			res = cur.fetchall()
+
+			up_vote_count = res[0][0]
+			down_vote_count = res[0][1]
+
+			if down_vote_count == 0 :
+				down_vote_count = 1
+
+			sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
+
+			cur.execute(sql)
+
+			conn.commit()
+			cur.close()
+			conn.close()
+
+			return "1"
+
+		else :
+			return "0"
 
 @app.route('/down_vote/<p_user>/<p_name>')
 def down_vote(p_user,p_name):
