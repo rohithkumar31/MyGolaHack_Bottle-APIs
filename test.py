@@ -1,4 +1,5 @@
 import os
+import time
 import psycopg2
 import urlparse
 import hashlib
@@ -67,3 +68,51 @@ def signup(username,passwd):
 		return "1"
 	else :
 		return "0"
+
+@app.route('/new_poll/<p_user>/<p_name>/<p_location>')
+def new_poll(p_user,p_name,p_location,p_image):
+	conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+	)
+
+	image_url = "http://kqulo.com/poll_images/"
+
+	cur = conn.cursor()
+
+	var1 = p_user
+	var2 = p_name
+	var3 = p_location
+
+	
+	sql = "SELECT COUNT(*) FROM public.\"Polls\" WHERE p_user='"+str(var1)+"'"
+
+	cur.execute(sql)
+
+	res = cur.fetchone()
+	res = res[0]
+
+	p_id = str(var1)+"_"+str(res + 1)
+	p_image = image_url+p_id+".jpg"
+
+	os.environ['TZ'] = 'Asia/Calcutta'
+	time.tzset()
+
+	p_date = str(time.strftime("%d-%m-%Y"))
+	p_time = str(time.strftime("%H:%M:%S"))
+
+	sql = "INSERT INTO public.\"Polls\" VALUES ('"+p_id+"','"+str(var1)+"','"+str(var2)+"','"+str(p_location)+"','"+p_image+"',0,0,'"+p_date+"','"+p_time+"')"
+
+	cur.execute(sql)
+
+	conn.commit()
+	cur.close()
+	conn.close()
+
+	return "Poll Inserted!! :-D"
+
+
+	
