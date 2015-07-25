@@ -5,6 +5,7 @@ import urlparse
 import hashlib
 import json
 from bottle import Bottle
+from psycopg2.extras import RealDictCursor
 
 app = Bottle(__name__)
 urlparse.uses_netloc.append("postgres")
@@ -343,3 +344,23 @@ def up_vote(p_user,p_name):
 
 
 
+@app.route('/all_polls')
+def all_polls():
+	conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+	)
+
+	cur = conn.cursor(cursor_factory=RealDictCursor)
+
+	sql = "SELECT * FROM public.\"Polls\""
+
+	cur.execute(sql)
+
+	rows = cur.fetchall()
+
+	 
+	print json.dumps(rows, indent=2)
