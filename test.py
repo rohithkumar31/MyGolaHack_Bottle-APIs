@@ -8,28 +8,8 @@ app = Bottle(__name__)
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(os.environ["DATABASE_URL"])
 
-@app.route('/test')
-def login():
-	conn = psycopg2.connect(
-    database=url.path[1:],
-    user=url.username,
-    password=url.password,
-    host=url.hostname,
-    port=url.port
-	)
-
-	cur = conn.cursor()
-
-	sql = "SELECT * FROM public.\"User\""
-
-	cur.execute(sql)
-
-	records = cur.fetchall()
-
-	return str(records)
-
 @app.route('/signup/<username>/<email>/<phone_no>/<passwd>')
-def login(username,email,phone_no,passwd):
+def signup(username,email,phone_no,passwd):
 	conn = psycopg2.connect(
     database=url.path[1:],
     user=url.username,
@@ -57,3 +37,33 @@ def login(username,email,phone_no,passwd):
 	conn.close()
 
 	return "1"
+
+@app.route('/login/<username>/<passwd>')
+def signup(username,passwd):
+	conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+	)
+
+	cur = conn.cursor()
+
+	var1 = username
+	var2 = passwd
+
+	hash_object = hashlib.sha256(str(var2))
+	new_passwd = str(hash_object.hexdigest())
+
+	sql = "SELECT passwd FROM public.\"User\" WHERE username='"+str(var1)+"'"
+
+	cur.execute(sql)
+
+	res = cur.fetchone()
+	res = str(res[0])
+
+	if new_passwd == res :
+		return "1"
+	else :
+		return "0"
