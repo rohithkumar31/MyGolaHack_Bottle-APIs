@@ -153,7 +153,7 @@ def up_vote(p_user,p_name):
 		up_vote_count = res[0][0]
 		down_vote_count = res[0][1]
 
-		if down_vote_count == 0 :
+		if down_vote_count == 0:
 			down_vote_count = 1
 
 		sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"'"
@@ -210,7 +210,7 @@ def up_vote(p_user,p_name):
 			up_vote_count = res[0][0]
 			down_vote_count = res[0][1]
 
-			if down_vote_count == 0 :
+			if down_vote_count == 0:
 				down_vote_count = 1
 
 			sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"'"
@@ -226,7 +226,123 @@ def up_vote(p_user,p_name):
 		else :
 			return "0"
 
+
+
 @app.route('/down_vote/<p_user>/<p_name>')
+def up_vote(p_user,p_name):
+	conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+	)
+
+	cur = conn.cursor()
+
+	var1 = p_user
+	var2 = p_name
+
+	sql = "SELECT EXISTS(SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"' AND p_name='"+str(var2)+"')"
+
+	cur.execute(sql)
+
+	res = cur.fetchone()
+
+	if(res == "false"):
+		sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',0,1,'"+v_date+"','"+v_time+"')"
+		
+		cur.execute(sql)
+
+		conn.commit()
+
+
+
+		sql = "SELECT p_up_votes,p_down_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"'"
+
+		cur.execute(sql)
+
+		res = cur.fetchall()
+
+		up_vote_count = res[0][0]
+		down_vote_count = res[0][1]
+
+		if up_vote_count == 0:
+			up_vote_count = 1
+
+		sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count-1)+",p_down_votes="+str(down_vote_count+1)+" WHERE p_name='"+str(var2)+"'"
+
+		cur.execute(sql)
+
+		conn.commit()
+		cur.close()
+		conn.close()
+
+		return "1"
+
+		
+
+	else:
+
+		sql = "SELECT p_down_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'AND p_name='"+str(var2)+"'"
+
+		cur.execute(sql)
+
+		res = cur.fetchall()
+
+		length = len(res)
+
+		#print length
+
+		if length == 0 :
+			res = 0 
+		else :
+			res = res[length-1][0]
+
+		print str(res)
+
+		if (str(res) == "None")|(str(res) == "0") :
+
+			os.environ['TZ'] = 'Asia/Calcutta'
+			time.tzset()
+
+			v_date = str(time.strftime("%d-%m-%Y"))
+			v_time = str(time.strftime("%H:%M:%S"))
+
+			sql = "INSERT INTO public.\"Votes\" (p_name,p_user,p_up_vote,p_down_vote,v_date,v_time) VALUES ('"+str(var2)+"','"+str(var1)+"',0,1,'"+v_date+"','"+v_time+"')"
+
+			cur.execute(sql)
+
+			conn.commit()
+
+			sql = "SELECT p_up_votes,p_down_votes FROM public.\"Polls\" WHERE p_name='"+str(var2)+"'"
+
+			cur.execute(sql)
+
+			res = cur.fetchall()
+
+			up_vote_count = res[0][0]
+			down_vote_count = res[0][1]
+
+			if up_vote_count == 0:
+				up_vote_count = 1
+
+			sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(up_vote_count-1)+",p_down_votes="+str(down_vote_count+1)+" WHERE p_name='"+str(var2)+"'"
+
+			cur.execute(sql)
+
+			conn.commit()
+			cur.close()
+			conn.close()
+
+			return "1"
+
+		else :
+			return "0"
+
+
+
+@app.route('/down/<p_user>/<p_name>')
 def down_vote(p_user,p_name):
 	conn = psycopg2.connect(
     database=url.path[1:],
