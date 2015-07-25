@@ -161,8 +161,8 @@ def up_vote(p_user,p_name):
 
 		res = cur.fetchall()
 
-		up_vote_count = res[0]
-		down_vote_count = res[1]
+		up_vote_count = res[0][0]
+		down_vote_count = res[0][1]
 
 		sql = "UPDATE public.\"Polls\" SET p_up_votes="+str(vote_count+1)+",p_down_votes="+str(down_vote_count-1)+" WHERE p_name='"+str(var2)+"' AND p_user='"+str(var1)+"'"
 
