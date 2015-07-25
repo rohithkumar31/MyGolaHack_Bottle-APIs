@@ -129,7 +129,7 @@ def up_vote(p_user,p_name):
 	var1 = p_user
 	var2 = p_name
 
-	sql = "SELECT EXISTS(SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"'AND p_name='"+str(var2)+"'"
+	sql = "SELECT EXISTS(SELECT p_up_vote FROM public.\"Votes\" WHERE p_user='"+str(var1)+"' AND p_name='"+str(var2)+"'"
 
 	cur.execute(sql)
 
