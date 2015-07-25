@@ -56,4 +56,4 @@ def login(username,email,phone_no,passwd):
 	cur.close()
 	conn.close()
 
-	return "Data Inserted!! :-D"
+	return "1"
