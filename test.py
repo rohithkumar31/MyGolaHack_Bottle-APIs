@@ -135,4 +135,4 @@ def up_vote(p_user,p_name):
 
 	res = cur.fetchone()
 
-	return str(res[0])
+	return str(res)
