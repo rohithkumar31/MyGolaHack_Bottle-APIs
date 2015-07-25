@@ -3,7 +3,7 @@ import time
 import psycopg2
 import urlparse
 import hashlib
-import sys
+import collections
 import json
 from bottle import Bottle
 
@@ -360,16 +360,22 @@ def all_polls():
 
 	cur.execute(sql)
 
-	res = cur.fetchall()
+	rows = cur.fetchall()
 
-	rows = [ dict(rec) for rec in res ]
+	objects_list = []
+	for row in rows:
+    	d = collections.OrderedDict()
+    	d['ID'] = row.p_id
+    	d['User'] = row.p_user
+    	d['Name'] = row.p_name
+    	d['Location'] = row.p_location
+    	d['Image URl'] = row.p_image
+    	d['Up Count'] = row.p_up_votes
+    	d['Down Count'] = row.p_down_votes
+    	d['Date'] = row.p_date
+    	d['Time'] = row.p_time
+    	objects_list.append(d)
+ 
+	j = json.dumps(objects_list)
 	
-	print rows
-
-    
-    rows_json = json.dumps(rows)
-    print rows_json
-
-    conn.commit()
-	cur.close()
-	conn.close()
+	print j
